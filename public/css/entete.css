@@ -1,0 +1,28 @@
+@font-face {
+    font-family: 'Dancing_Script';
+    src: url(../fonts/Dancing_Script/static/DancingScript-Bold.ttf);  
+  
+  }  
+
+detail {
+	font-weight: bold;
+	color:#446e9b;
+}
+
+hs {
+    font-family: 'Dancing_Script';
+    font-size: 60px;    
+    color: rgb(0, 149, 255);  
+   /* src: url(../fonts/Dancing_Script/static/DancingScript-Bold.ttf);*/
+  }
+
+hr{
+    height: 3px;
+    background-color: #194a8d;
+    border: none;
+}
+
+.no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+} 

@@ -1,0 +1,60 @@
+{% block stylesheets %}
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.2.3/dist/spacelab/bootstrap.min.css">
+		<link href="{{ asset('css/entete.css') }}" rel='stylesheet' />
+ 		
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+        
+<div class="container">
+</br>
+    <div class="row">
+      <div class="col-sm-12" >        
+        <div class="card mb-12">
+          <div class="card mb-6">
+            <div class="card border-primary text-black text-center">
+              <hs>Aéroclub Paca Taougrite</hs>
+            </div>
+          </div>            
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-md-center align-items-end">
+      <div class="col-sm-5">
+        <div class="card mb-12">
+          <div class="card-body bg-primary text-white text-left">
+            <h5>Compte de : {{app.user.firstname}} {{app.user.lastname}}</h5> 
+            <h5>N° Pilote : {{app.user.id}} </h5>					
+            <h5>N°Comptable : {{app.user.comptepilote.id}}	</h5>	
+          </div>
+        </div>
+      </div>        
+      <div class="col-sm">
+        <div class="card mb-7">
+          <div class="card-body bg-primary text-white text-center">
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+              <h6>Connecté en tant que: {{ app.user }}</h6>                    
+              <hr> 
+              <a button class="btn btn-outline-success text-white" role="button" href="{{ path('app_logout') }}">Déconnexion</a>
+              <a href="{{ path('app_MesDossiers') }}" class="btn btn-outline-success text-white" role="button" aria-pressed="true">Mes Dossiers</a>	
+            {% endif %}									
+          </div>    
+        </div>
+      </div>
+    
+      <div class="col-sm">
+        <div class="card mb-8">
+          <div class="card-body bg-primary text-white text-center">
+            <p>Aujourd'hui:
+              {{ "now"|format_datetime('medium', 'short', timezone="Europe/Paris") }}
+            </p>
+            <hr>
+            <p>
+              Résolution Ecran: 	<script type="text/javascript">document.write(""+screen.width+" x "+screen.height+"");</script> 
+            </p>								
+          </div>    
+        </div> 
+      </div>
+    </div>
+</div>
+<br>

@@ -1,0 +1,113 @@
+{% extends "layout.html.twig" %}
+{% form_theme formVol 'bootstrap_4_layout.html.twig' %}	
+
+{% block body %}
+    <head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">		
+    </head>
+        {% block stylesheets %}
+			<link href="{{ asset('css/layout.css') }}" rel='stylesheet' />	
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.2.3/dist/spacelab/bootstrap.min.css">		
+        {% endblock %}
+	 	
+		{% include "_partials/_entete.html.twig" %}
+{{ form_start(formVol) }}		
+	<div class="container">
+		<hr>				
+			<div class="row">					
+				<div class="col-12">
+					<div class="alert alert-danger">
+						<h5><strong>Modification: Saisissez les Nouvelles Données</strong></h5>
+					</div>
+
+				</div>
+			</div>
+	
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="form-group" id="user">
+				<div class="col-sm-12">
+					<div><strong>{{ form_row(formVol.user, {'label' : 'Pilote', 'attr' : { 'class' : 'user' }}) }}</strong></div>
+				</div>
+			</div>
+			<div class="form-group" id="datevol">
+				<div><strong>{{ form_row(formVol.datevol, {'label' : 'Date du Vol', 'attr' : { 'class' : 'vol' }}) }}</strong></div>
+			</div>			
+			<div class="form-group" id="CodeReservation">
+				<div class="col-sm-9">
+					<div><strong>{{ form_row(formVol.CodeReservation, {'label' : 'Code de Réservation', 'attr' : { 'class' : 'vol' }}) }}</strong></div>							
+				</div>
+			</div>			
+		
+		</div>	
+		<div class="col-sm-4">
+			<div class="form-group" id="avion">
+				<div class="col-sm-12">
+					<div><strong>{{ form_row(formVol.avion) }}</strong></div>
+				</div>
+			</div>
+					
+			<div class="form-group" id="typevol">
+				<div class="col-sm-12">			
+					<div><strong>{{ form_row(formVol.typevol, {'label' : 'Type de Vol', 'attr' : { 'class' : 'vol' }}) }}</strong></div>
+				</div>		
+			</div>					
+			<div class="form-group" id="instructeur">
+				<div class="col-sm-12">			
+					<div><strong>{{ form_row(formVol.instructeur) }}</strong></div>
+				</div>
+			</div>
+					
+			<div class="form-group" id="naturevol">
+				<div class="col-sm-12">			
+					<div><strong>{{ form_row(formVol.naturevol, {'label' : 'Nature du Vol', 'attr' : { 'class' : 'vol' }}) }}</strong></div>
+				</div>
+			</div>
+		</div>				
+		<div class="col-sm-4">
+			<div class="form-group" id="lieuDepart">
+				<div class="col-sm-12">
+					<div><strong>{{ form_row(formVol.lieuDepart, {'label' : 'Départ de:', 'attr' : { 'class' : 'vol' }}) }}</strong></div>
+				</div>
+			</div>		
+
+			<div class="form-group" id="heureDepart">
+				<div class="col-sm-12">
+					<div><strong>{{ form_row(formVol.heureDepart, {'label' : 'Heure de Départ:', 'attr' : { 'class' : 'vol' }}) }}</strong></div>
+				</div>
+			</div>
+
+			<div class="form-group" id="lieuArrivee">
+				<div class="col-sm-12">
+					<div><strong>{{ form_row(formVol.lieuArrivee, {'label' : 'Lieu d\'Arrivée:', 'attr' : { 'class' : 'vol' }}) }}</strong></div>
+				</div>
+			</div>
+
+			<div class="form-group" id="heureArrivee">
+				<div class="col-sm-12">
+					<div><strong>{{ form_row(formVol.heureArrivee, {'label' : 'Heure d\'Arrivée:', 'attr' : { 'class' : 'vol' }}) }}</strong></div>
+				</div>
+			</div>				
+		</div>
+	</div> 		
+	<div class="row">
+		<div class="col-sm-4">				
+			<div class="form-group" style="font-weight: bold;font-size:medium;color:red">
+				{% if formVol.facture is defined %}
+				<div>{{ form_row(formVol.facture, {'label' : 'Facture portée sur votre compte:', 'attr' : { 'class' : 'vol' }}) }}</strong></div>					
+				{%endif %} 
+				<div class="form-group" style="font-weight: bold;font-size:medium;color:blue">
+					<div>{{ form_row(formVol.operDate, {'label' : 'Date de Saisie:', 'attr' : { 'class' : 'vol' }}) }}</strong></div>
+					</div>
+				</div>
+			</div>	
+		</div>					
+					
+		{{ form_widget(formVol.valider, {'attr': {'class': 'btn btn-primary'}}) }}
+			<a href="{{ path('app_MesVols_detail') }}" button class="btn btn-danger" role="button" aria-pressed="true" >Annuler</a>
+{{ form_end(formVol) }}
+	</div> 
+	 
+{% endblock %}	

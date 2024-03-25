@@ -1,0 +1,88 @@
+{% extends 'layout.html.twig' %}
+{% block body %}
+		{% block stylesheets %}
+			{#{{ encore_entry_link_tags('app') }}#}
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.2.3/dist/spacelab/bootstrap.min.css">
+			<link href="{{ asset('css/layout.css') }}" rel='stylesheet' />	
+		{% endblock %}
+
+	 	{% include "_partials/_entete.html.twig" %}
+{#<style>#}
+  {#    table,th,td{border:2px solid  #3338ff }#}
+{#</style>#}	  
+<div class="container">		
+		<div class="row">							
+			<div class="col-6">
+				<h3>Carnet de Vols</h3>
+			</div>
+		</div>
+	<div class="row ">
+	 <div class="col-md-12">
+	  <table class="table table-striped table table-bordered table table-hover "> 
+		<thead>
+    	 <tr class="table-primary">					
+		  <th style="text-align:center;">Date</th>
+		  <th style="text-align:center;">Avion</th>					  
+          <th style="text-align:center;">Fonction à Bord</th>  
+          <th style="text-align:center;">Durée</th>
+          <th style="text-align:center;">Double</th>
+          <th style="text-align:center;">Cdt de bord</th>	
+		 </tr>
+		</thead>
+		
+		<tbody>
+			
+			{% for vol in vols %}
+							
+		     <tr class="active">					   
+				{% set TempsVol = "" %}
+		          <td style="text-align:center;font-weight: bold;color:#446e9b;" >{{ vol.datevol|date('d/m/Y') }}</td>									   
+				  <td style="text-align:center;font-weight: bold;color:#446e9b;" >{{ vol.avion }}</td>
+						                                
+                  <td style="text-align:center;font-weight: bold;color:#446e9b;">{{ vol.typevol }}</td>
+				  <td style="text-align:center;font-weight: bold;color:#446e9b;">{{ vol.dureeduvol | date('H:i') }}</td>
+                             
+
+								{% if vol.typevol == 'Ecole' %}
+									<td style="text-align:center;font-weight: bold;color:#446e9b;" >{{ vol.dureeduvol | date('H:i') }}</td>
+								{% else %}
+									<td style="text-align:center;font-weight: bold;color:#446e9b;">-</td>
+								{% endif %}
+
+								{% if  vol.typevol == 'Solo' %}
+									<td style="text-align:center;font-weight: bold;color:#446e9b;">{{ vol.dureeduvol | date('H:i') }}</td>
+
+								{% else %}
+									<td style="text-align:center;font-weight: bold;color:#446e9b;"">-</td>
+								{% endif %}
+							{% endfor %}
+						</tbody>
+
+					  <th colspan="2"></th>
+					  
+
+					<td style="text-align:right;font-size: 15px; font-weight: bold;color: #010700;">Totaux:</td>															
+				  
+						<td style="text-align:center;font-weight: bold;color:#C42116;">{{ monTempsGlobal}}</td>
+      					<td style="text-align:center;font-weight: bold;color:#C42116;">{{ monTempsDouble}}</td>
+      					<td style="text-align:center;font-weight: bold;color:#C42116;">{{ monTempsSolo }}</td>					
+
+				</table>
+													 
+				<div class="pagination justify-content-center" style="margin:20px 0">
+					{{ knp_pagination_render(vols,'@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig',) }} 
+				</div>
+
+				
+			</div>			
+		
+			<div>
+			<a href="{{ path('app_MesVols_detail') }}" class="btn btn-outline-primary" role="button" aria-pressed="true">Détail des Vols</a>
+			<a href="{{ path('app_MesDossiers') }}" class="btn btn-outline-primary" role="button" aria-pressed="true" >Retour à : Mes Dossiers</a>
+			<a href="{{ path('app_MesVols_PDFcarnet')}}" class="btn btn-outline-danger" role="button" aria-pressed="true"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>  Télécharger</a>			
+			</div>
+		</div>
+</div>
+
+{% endblock body %}                    	

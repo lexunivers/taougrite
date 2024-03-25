@@ -1,0 +1,89 @@
+{% extends 'layout.html.twig' %}
+
+
+{% block body %}
+        {% block stylesheets %}
+        {#}    {{ encore_entry_link_tags('app') }}#}
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.2.3/dist/spacelab/bootstrap.min.css">		
+		<link href="{{ asset('css/layout.css') }}" rel='stylesheet' />
+        {% endblock %}
+	 	{% include "_partials/_entete.html.twig" %}
+ <style>
+
+</style>
+<header>
+	<div class="container-fluid">
+		<div class="container">								
+			<div class="row">					
+				<div class="col-md-9 offset-2">
+					<div class="alert alert-danger">
+						<h4><strong> Etes-vous certain de vouloir supprimer Ce Vol ?</strong></h4>
+					</div>		
+				</div>
+			</div>					
+			
+			<div class="row ">
+				<div class="col-md-12">	
+					<table class="table table-striped table table-bordered table table-hover">
+						<thead>
+							<tr class="table-primary">
+								<th>N°</th> 										
+								<th>Date</th>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+								<th>Avion</th>                                                                                                                                                                                                            
+								<th>Vol</th>                                                                                                                                                                                                            
+								<th>Instruct</th>                                                                                                                                                                                                            
+								<th>Nature</th>                                                                                                                                                                                                            
+								<th>Lieu Depart</th>                                                                                                                                                                                                            
+								<th>Lieu Arrivee</th>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+								<th>Heure Départ</th>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+								<th>Heure Arrivée</th>                                                                                                                                                                                                            
+								<th>Durée Vol</th>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+								<th>Tarif Solo</th>                                                                                                                                                                                                            
+								<th>Tarif Ecole</th>                                                                                                                                                                                                            
+								<th>Tarif Appliqué</th>                                                                                                                                                                                                            
+								<th>Débit</th>
+							</tr>								
+						</thead>
+			<tbody>
+				<tr class="active" style="font-weight: bold;font-size:medium;color:#4d0000">
+					<td>{{ vol.id}}</td>										
+					<td>{{ vol.datevol|date('d/m/Y') }}</td>								   								   
+					<td>{{ vol.avion }}</td>
+					<td>{{ vol.typevol }}</td>
+					<td>{{ vol.instructeur }}</td>
+					<td>{{ vol.naturevol}}</td>
+					<td>{{ vol.lieudepart}}</td>
+					<td>{{ vol.lieuarrivee}}</td>
+					<td>{{ vol.heuredepart|date('H:i') }}</td>
+					<td>{{ vol.heurearrivee|date('H:i')}}</td>																						
+					<td>{{ vol.dureeduvol |date('H:i') }}</td>
+					<td>{{ vol.tarifapplicable|number_format(2, '.', ',') }}</td>										   
+					<td>{{ vol.affichageEcole |number_format(2, '.', ',') }}</td>									   
+					<td>{{ vol.tarifapplicable|number_format(2, '.', ',') }}</td> 	   
+					<td>{{ vol.montantfacture |number_format(2, '.', ',') }}</td>
+				</tr>
+			</tbody>
+			</table>
+		</div>						
+	</div>
+  </p>
+
+  {# On met l'id de l'annonce dans la route de l'action du formulaire #}
+  <form action="{{ path('app_MesVols_supprimer', {'id': vol.id}) }}" method="post">
+
+	<a href="{{ path('app_MesVols_detail', {'id': vol.id})  }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+    </a>
+
+
+    {# Ici j'ai écrit le bouton de soumission à la main #}
+    <a button class="btn btn-outline-primary" role="button" aria-pressed="true" href="{{ path('app_MesVols_liste') }}">Retour Liste Vols</a>
+	<a button class="btn btn-primary" role="button" aria-pressed="true" href="{{ path('app_MesVols_detail') }}">Annuler</a>		
+    <input type="submit" value="Supprimer" class="btn btn-danger" />
+    {# Ceci va générer le champ CSRF #}
+  {#  {{ form_rest(formVol) }}#}
+  </form>
+</div>
+</div>
+{% endblock body %}

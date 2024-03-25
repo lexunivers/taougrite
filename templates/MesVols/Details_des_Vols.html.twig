@@ -1,0 +1,145 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+        {% block stylesheets %}
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.2.3/dist/spacelab/bootstrap.min.css">		
+		<link href="{{ asset('css/layout.css') }}" rel='stylesheet' />		
+        {% endblock %}
+{% include "_partials/_entete.html.twig" %}		
+<hr>		
+<div class="container-fluid">
+	<div class="row">
+		<div>
+			<h5>{# On affiche tous les messages flash dont le nom est « notice » #}			
+				{% for message in app.session.flashbag.get('notice') %}
+					<div class="alert alert-danger">
+					    <p>Message flash : {{ message }}</p>
+					</div>
+				{% endfor %}
+			</h5>
+		</div>
+	</div>
+	<div class="row">							
+		<div class="col-7">
+			<h3>Détails des Vols 
+				<h6>	<div class="card bg-danger text-white text-center">
+					{#}	<span class="bold">Un vol enregistré par le secrétariat ne peut pas être modifié ! Contactez le club </span>#}
+					</div>
+				</H6>
+			</h3>
+		</div>
+	</div>					
+	<div class="row ">
+		<div class="col-md-12">
+			<table class="table table-striped table table-bordered table table-hover">
+				<thead>
+					<tr class="table-primary">
+						<th>Date</th>                                                                                                                              														<th  scope="col-1">Avion</th>                                                                                                                                                                                                            
+						<th>Vol</th>                                                                                                                                                                                                            
+						<th>Instruct</th>                                                                                                                                                                                                            
+						<th>Nature</th>                                                                                                                                                                                                            
+						<th>Lieu Depart</th>                                                                                                                                                                                                            
+						<th>Lieu Arrivee</th>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+						<th>Heure Départ</th>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+						<th>Heure Arrivée</th>                                                                                                                                                                                                            
+						<th>Durée Vol</th>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+						<th>Tarif Solo</th>                                                                                                                                                                                                            
+						<th>Tarif Ecole</th>                                                                                                                                                                                                            
+						<th>Tarif Retenu</th>                                                                                                                                                                                                            
+						<th>Débit €uros</th>
+						<th>Code R</th>
+						<th>Action</th>												
+					</tr>										
+				</thead>					  
+				<tbody>				  
+					{% for vol in vols %}
+						<tr class="active" >
+							<td><detail>{{ vol.datevol|date('d/m/Y') }}</detail></td>							   
+							<td><detail>{{ vol.avion }}</detail></td>
+							<td><detail>{{ vol.typevol }}</detail></td>
+							<td><detail>{{ vol.instructeur }}</detail></td>
+							<td><detail>{{ vol.naturevol}}</detail></td>
+							<td><detail>{{ vol.lieudepart}}</detail></td>
+							<td><detail>{{ vol.lieuarrivee}}</detail></td>
+							<td><detail>{{ vol.heuredepart|date('H:i') }}</detail></td>
+							<td><detail>{{ vol.heurearrivee|date('H:i')}}</detail></td>																			
+							<td><detail>{{ vol.dureeduvol |date('H:i') }}</detail></td>							
+							<td><detail>{{ vol.tarifSolo | number_format(2, '.', ',') }}</detail></td>									   
+							<td><detail>{{ vol.affichageEcole | number_format(2, '.', ',') }}</detail></td>								   
+							<td><detail>{{ vol.tarifapplicable | number_format(2, '.', ',') }}</detail></td> 	    
+							<td><detail>{{ vol.montantfacture | number_format(2, '.', ',') }}</detail></td>
+							<td><detail>{{ vol.CodeReservation }}</detail></td>
+							<td>
+								<div class="btn-group">
+									<a href="{{ path('app_MesVols_modifier', {'id': vol.id}) }}" class="btn btn-sm btn-default edit_link" title="Modifier">
+										<button class="btn btn-warning" style="font-size:12px"><i class="fa fa-pencil" style="font-size:20px;color:green"></i>Modifier</button>												
+									</a>
+										{# Affichage de la Modal #}
+									<div class="modal fade" id="confirmModal">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times" style="font-size:20px;color:red"></i></button>
+													<h3>Confirmation de la suppression</h3>
+												</div>															
+												<div class="modal-body">
+													<h3><p>Etes-vous sûr de vouloir supprimer cet élément ?</p></h3>
+												</div>																
+												<div class="modal-footer">
+													<a href="#" class="btn btn-primary" id="confirmModalNo">Non</a>
+													<a href="#" class="btn btn-danger" id="confirmModalYes">Oui</a>
+												</div>
+												</div>
+											</div>
+										</div>															
+										<a href="{{ path('app_MesVols_supprimer', {'id': vol.id}) }}"  class="btn btn-sm btn-default edit_link" title="Supprimer">
+										<button class="btn btn-primary" style="font-size:12px"><i class="fa fa-times" style="font-size:20px;color:red"></i>Supprimer</button>
+										</a>														
+									</div>
+								</div>	
+							</td>								   										   
+						</tr>
+					{% endfor %}										
+				</tbody>
+			</table>
+				<div class="pagination justify-content-center" style="margin:20px 0">
+					{{ knp_pagination_render(vols,'@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig',) }} 
+				</div>
+			</div>	
+		</div>				
+
+			<p>				
+			<a href="{{ path('app_MesVols_liste') }}" class="btn btn-outline-primary" role="button" aria-pressed="true">Retour Liste Vols</a>
+			<a href="{{ path('app_MesDossiers') }}" class="btn btn-outline-primary" role="button" aria-pressed="true">Mes Dossiers</a>
+			<a href="{{ path('app_PDFlistDetailVols') }}" class="btn btn-outline-success" role="button" aria-pressed="true"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Télécharger</a>		
+			</p>
+		</div>
+	</div>	
+{% block javascripts %}
+    {#{{ encore_entry_script_tags('app') }}#}        
+<script src="http://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>		
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous" ></script>		
+<script> 
+	$(document).ready(function () {
+		var theHREF;
+		$(".confirmModalLink").click(function(e) {
+			e.preventDefault();
+			theHREF = $(this).attr("href");
+			$("#confirmModal").modal("show");
+		});
+
+		$("#confirmModalNo").click(function(e) {
+			$("#confirmModal").modal("hide");
+		});
+
+		$("#confirmModalYes").click(function(e) {
+			window.location.href = theHREF;
+		});
+	});
+</script>				
+{% endblock %}
+</div>
+{% endblock body %}				

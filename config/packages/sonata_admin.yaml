@@ -1,0 +1,37 @@
+sonata_admin:
+    dashboard:
+        blocks:
+            -  
+                position: left
+                type: sonata.admin.block.admin_list
+                settings:
+                    groups: [sonata_user, Comptabilité, Gestion Des Vols,  Localisation, Consultation ]
+                    
+            -
+                position: right
+                type: sonata.admin.block.admin_list
+                settings:
+                    groups: [Parc Avions, Formation, Réservation, Statistiques, Parametres, Gestion des Vols ]
+    title: 'Taougrite Dahra'
+
+    templates:
+        dashboard: '@SonataAdmin/Core/dashboard.html.twig'    
+      #  blocks:
+      #      - { type: sonata.admin.block.admin_list, position: left }
+    security:
+        handler: sonata.admin.security.handler.acl
+        
+        role_admin: ROLE_ADMIN
+        role_super_admin: ROLE_SUPER_ADMIN
+
+        # acl security information
+        information:
+            GUEST:    [VIEW, LIST]
+            STAFF:    [EDIT, HISTORY, LIST, CREATE]
+            EDITOR:   [OPERATOR, EXPORT]
+            ADMIN:    [MASTER]
+            PILOTE:   [MASTER]            
+sonata_block:
+    blocks:
+        sonata.admin.block.admin_list:
+            contexts: [admin]

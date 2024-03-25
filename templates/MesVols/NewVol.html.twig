@@ -1,0 +1,31 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <h1>Assigner une réservation à un vol</h1>
+
+    {% if updateSuccess %}
+        <div class="alert alert-success">
+            {{ updateSuccess }}
+        </div>
+    {% endif %}
+
+    {% if reservationNotFound %}
+        <div class="alert alert-danger">
+            {{ reservationNotFound }}
+        </div>
+    {% endif %}
+
+    {% if volNotFound %}
+        <div class="alert alert-danger">
+            {{ volNotFound }}
+        </div>
+    {% endif %}
+
+    <form action="{{ path('vol_reservation', {'id': id}) }}" method="POST">
+        <div class="form-group">
+            <label for="id">Numéro d'ordre de la réservation :</label>
+            <input type="number" id="id" name="id" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Assigner</button>
+    </form>
+{% endblock %}

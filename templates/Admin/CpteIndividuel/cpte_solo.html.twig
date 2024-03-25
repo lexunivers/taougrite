@@ -1,0 +1,203 @@
+{% extends '@SonataAdmin/standard_layout.html.twig' %}
+ 
+{#{% block notice %}#}
+{#    {{ parent() }}#}
+
+{#{% endblock %}#}
+		
+{#{% form_theme formComptable _self %}#}
+
+{% block sonata_admin_content %} 
+    {#Your content here#}
+	{#	<link href="{{ asset('css/login.css') }}" rel='stylesheet' />#}
+		{#	<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">#}
+		{#	<link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet'>#}
+		{#<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.2.3/dist/spacelab/bootstrap.min.css">#}
+		
+		    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+ <style>
+@font-face {
+    font-family: 'Dancing_Script';
+    src: url(../fonts/Dancing_Script/static/DancingScript-Bold.ttf);  
+  
+  }  
+hs {
+    font-family: 'Dancing_Script';
+    font-size: 60px;    
+    color: rgb(0, 149, 255);  
+   /* src: url(../fonts/Dancing_Script/static/DancingScript-Bold.ttf);*/
+  } 
+      hr{
+        height: 3px;
+        background-color: #194a8d;
+        border: none;
+      }
+
+
+      table,th,td{border:1px solid #cccccc}
+    	  
+</style>
+{{ form_start(formComptable) }}
+	<div class="container-fluid">
+
+		<div class="row">
+			<div class="col-2">
+				<div class="form-group" id="user">
+					<div class="col-sm-3">										
+						<div>
+							<strong>{{ form_row(formComptable.user, {'label' : 'Choisissez un Adhérent', 'attr' : { 'class' : 'user'}}) }}</strong>
+						</div>									
+					</div>
+				</div>
+			</div>
+			<div class="col-5">
+				<div class="form-group" id="user">
+					<div class="col-sm-3">										
+						<div>
+							<a class="logo" href="/admin/dashboard"><span>Retour Tableau de Bord</span></a>
+						</div>									
+					</div>
+				</div>
+			</div>
+
+		</div>
+	
+{{ form_end(formComptable) }}
+<hr>
+					<div class="row"> 
+						<div class="col-8">							
+							<h3>Compte de : {{prenom}} {{nom}} </h3>								  
+							<h3>N° Pilote : {{pilote}}</h3>		
+							<h3>N°Comptable : {{comptable.Id}} </h3>	
+						</div>
+						
+						<div class="col-8">
+							{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %} 
+							<h4>Membre Connecté : {{ app.user.username }}</h4> 
+
+							<a button class="btn btn-primary" role="button" href="{{ path('app_logout') }}" >Déconnexion</a>
+													
+							{% else %}
+
+							{% endif %}				
+						</div>
+					</div>			
+
+					<div class="row">
+						<div><h5>{# On affiche tous les messages flash dont le nom est « notice » #}
+							{% for message in app.session.flashbag.get('notice') %}
+								<div class="alert alert-danger">
+									<p>Message : {{ message }}</p>
+								</div>
+							{% endfor %}
+						    </h5>
+						</div>
+					</div>
+  <hr>
+
+					<div class="row">							
+						<div class="col-6">
+							<h3>Situation du Compte :  {{comptable.Id}} </h3>
+						</div>
+					</div>
+
+					<div class="row ">
+						<div class="col-md-12">						
+							<table class="table table-striped table-bordered table-hover">
+								<thead>
+								  <tr class="table-primary">										
+										<th>Date</th>
+										<th>Libelle</th>																
+										<th>N°Ecriture</th>
+										<th>Débit</th>														
+										<th>Credit</th> 
+										<th>Solde</th> 										
+									</tr>
+								</thead>
+
+								{% for sommeTotale in Ecritures %}								
+									<tr>
+										<td style="font-weight: bold;font-size:20px; color:#446e9b;" class="bg-light border border-primary">{{ sommeTotale.operdate|date('d/m/Y')}}</td>
+										<td style="font-weight: bold;font-size:20px; color:#446e9b;" class="bg-light border border-primary"><em>{{ sommeTotale.libelle}}</em></td>
+										<td>{{ sommeTotale.id}}</td>								
+
+											{% if sommeTotale.opersensmt == 0 %}
+														
+												<td><div class="card bg-danger text-white text-center" class="bg-light border border-primary"><span class="bold">{{ sommeTotale.opermontant | number_format(2, '.', ',')}}</span></div></td>
+												<td></td>	
+															
+											{% else %}
+																	
+													<td></td>														
+													<td><div class="card bg-success text-white text-center" class="bg-light border border-primary"><span class="bold">{{sommeTotale.opermontant| number_format(2, '.', ',')}}</span></div></td>														
+															
+											{% endif %}							
+										<td></td>
+									</tr>
+								
+								{% endfor %}								
+
+										{# affichage des sommes #}
+															
+											<td class="text-center"></td>
+											<td class="text-center"></td>
+											<td><div class="card bg-dark text-white text-center"><span class="bold">Totaux:</span></div></td>
+
+													{% set soldeDebiteur = 0 %}
+													{% set soldeCrediteur = 0 %}
+													{% set credit = 0 %}
+													{% set debit = 0 %}
+
+															{% for key, montantdebit in montantdebit %}
+
+																{% for montantdebit in montantdebit %}
+																	<td><div class="card bg-danger text-white text-center"><span class="bold">{{montantdebit| number_format(2, '.', ',')}}</span></div></td>					
+																	{% set debit = montantdebit %}
+																{% endfor %}
+																										
+															{% endfor %}
+
+															
+															{% for key, montantcredit in montantcredit %}
+
+																{% for montantcredit in montantcredit %}
+
+																	<td><div class="card bg-warning text-black text-center"><span class="bold">{{montantcredit| number_format(2, '.', ',')}}</span></div></td>				
+																	{% set credit = montantcredit %}
+																
+																{% endfor %}
+															
+																	{% if debit >credit %}				
+																		{% set soldeDebiteur = debit-credit %}
+																	{% else %}
+																		{% set soldeCrediteur = credit - debit %}
+																	{% endif %}
+															
+															{% endfor %}
+
+																{% if credit >= debit %}														
+																	<td><div class="card bg-success text-white text-center" class="bg-light border border-primary"><span class="bold">{{soldeCrediteur| number_format(2, '.', ',')}}</span></div></td>
+																{% elseif debit>=credit %}
+																	<td><div class="card bg-danger text-white text-center"class="bg-light border border-primary"><span class="bold">{{soldeDebiteur| number_format(2, '.', ',')}}</span></div></td>
+
+																{% endif %}	
+	
+							</table>	
+						</div>
+					</div>	
+			<div>
+
+<div class="sonata-ba-form-actions well well-small form-actions">  		
+<a class="btn btn-outline-primary" href="/admin/dashboard"  role="button" aria-pressed="true">Retour Tableau de Bord</a>			
+			</div>
+			</div>
+
+</div>
+    {#    {% block javascript %} #}
+    {#        {{ encore_entry_script_tags('app') }} #}
+    {#    {% endblock %} #} 
+
+    <!-- Include Flashy default partial-->
+	{#	{{ include('@MercurySeriesFlashy/flashy.html.twig') }} #}
+
+{% endblock sonata_admin_content %}

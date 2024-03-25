@@ -1,0 +1,314 @@
+{% extends '@SonataAdmin/standard_layout.html.twig' %}
+ 
+{% block notice %}
+    {{ parent() }}
+{% endblock %}		
+{% form_theme form _self %}
+
+{% block sonata_admin_content %}
+ 
+	<meta charset="utf-8">
+ <style>
+      hr{
+        height: 3px;
+        background-color: #194a8d;
+        border: none;
+      }
+</style>
+{#}	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel='stylesheet' />#}
+			<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+			<link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet'>  				
+    {#Your content here#}
+  <meta name="viewport" content="width=device-width, initial-scale=1">  
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> 
+    <link href="{{ asset('fullcalendar-scheduler/lib/main.css') }}" rel='stylesheet' />
+	<script src="{{ asset('fullcalendar-scheduler/lib/main.js') }}"></script>
+    <script src="{{ asset('js/jquery-3.6.1.min.js') }}"></script>
+
+<div class="container-fluid">  
+<script type="text/javascript">
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+		schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+		locale: 'fr',
+		timeZone: 'Europe/Paris',   
+		slotMinTime: '08:00:00', 
+		slotMaxTime: '19:45:00',
+		slotDuration: '00:15:00',
+		scrollTime: '00:00', // undo default 6am scrollTime
+		editable: true, // enable draggable events
+		selectable: true,
+		aspectRatio: 1.8,
+		nowIndicator:true,
+		headerToolbar: {
+			left: 'prev,next today',
+			center: 'title',
+			right: 'resourceTimelineDay, timeGridWeek, dayGridMonth, listWeek'
+		},
+		
+		buttonText:{
+        today:    'Aujourd\'hui',
+        month:    'Mois',
+        week:     'Semaine',
+        day:      'Jour',
+        list:     'Liste'
+        },
+
+		initialView: 'resourceTimelineDay',
+		navLinks: true,
+		resourceAreaWidth: '17%',
+		//resourceAreaHeaderContent:, //'Appareils',
+
+		resourceAreaColumns: [ 
+			{
+			//group: true,
+			field: 'title',
+			headerContent: 'Plaque',
+      		},
+		  	
+			{
+			field: 'marque',
+			headerContent: 'Marque',
+			
+			},		  
+		  
+		  	{
+			field: 'type',
+			headerContent: 'Type',
+		  	},		
+		],
+
+
+		//instructeur: 'http://skyblue5421/reservation/instructeur',
+			
+		resources:'http://dahra/reservation/resources',
+
+		events: 'http://dahra/reservation/load',
+		
+		avion:'http://dahra/reservation/avion',
+
+
+
+		eventDrop:function(events,start,end,title,id,resourceId, stop)
+		{
+			alert(events.event.title + ' \n' + 'Déplacement \n' + 'du: \n' + events.event.start.toISOString() + ' \n' + 'Au: `\n' + events.event.end.toISOString() );			
+			
+			$.ajax({
+				url:"/update",
+				type:"POST",
+				data:{
+					id:events.event.id,
+					title:events.event.title,
+					start:events.event.startStr,
+					end:events.event.endStr,
+					resourceId: events.event.resourceId,
+					stop : events.event.stop,
+					},
+					backgroundColor: 'red',    // an option!	
+					success:function(stop)
+						{
+							if (stop == true) {
+								alert("Vous ne pouvez pas déplacer cette réservation.");
+							} else {
+								alert("Modification Enregistrée.");
+							}
+					calendar.refetchEvents('events,start,end,title,resourceId');
+						}
+			})
+		},
+
+		select: function(info)
+		{
+			var endStr = new Date(endStr); //FullCalendar.formatDate("Y-MM-DD HH:mm:ss"   );
+			beforeDay = new Date(endStr.getFullYear(),endStr.getMonth(),endStr.getDate() - 1,);
+
+			$.ajax({
+				url:"new",
+				type:"POST",
+				data:{
+					title:info.title,
+					start:info.startStr,
+					end:info.endStr,
+					resourceId: info.resource.id,
+					instructeur: info.instructeur,
+					//formateur: info.formateur,
+					avion: info.avion,
+					editMode:false,
+						instructeur:function (instructeur)
+						{
+							var x = document.getElementById("reservation_edit_instructeur");
+							var i = x.selectedIndex;
+										  //var value = e.options[e.selectedIndex].value;
+							var selectedValue = document.getElementById("reservation_edit_instructeur").value;  
+										  //document.getElementById("demo").innerHTML = x.options[i].text;
+										  //document.getElementById("demo").innerHTML = x.options[i].value;
+										  //var instructeur = x.options[i].value;
+
+										  
+							//document.getElementById("demo").innerHTML = "<div>Vous avez choisi l'instructeur:<br />" + x.options[i].text + " Soit : " + x.options[i].value + "</div>"; 
+
+							//On récupère le nom
+							var instructeur = x.options[i].value;		
+								if (instructeur)
+								{
+									//	document.getElementById("reserver_edit").innerHTML = "<div>Vous avez choisi l'instructeur:<br />" + x.options[i].text; // + " Soit : " + x.options[i].value + "</div>"; 
+								
+									//var value = instructeur;
+									//	alert("Instructeur TRUE.");
+									//document.getElementById("demo").innerHTML = "<div>Initiales Instructeur:<br />" + x.options[i].value;	
+									
+									return instructeur;	
+									
+									} else {
+										alert("Pas d'instructeur");
+									}
+
+
+										  //document.getElementById("demo").innerHTML = ('Its value is: ' + theSelect[theSelect.selectedIndex].value);  
+								},
+							//value: 'value',								
+							
+	
+							//instructeur = info.instructeur,
+							
+							},
+							success:function()
+								{
+								calendar.refetchEvents('events');	
+
+								alert("Réservation Enregistrée");
+								}
+				  		}
+				  	)
+
+		},	
+
+		eventResize: function(events,start,end,title,id,resourceId,reservataire, stop) {
+			alert('Modification  \n'  + 'Heure de Fin est maintenant:  \n' + events.event.end.toISOString());
+
+			$.ajax({
+				url:"/update",
+				type:"POST",
+
+				data:{
+					id:events.event.id,
+					title:events.event.title,
+					start:events.event.startStr,
+					end:events.event.endStr,
+					resourceId: events.event.resourceId,
+					reservataire:events.event.reservataire,
+					stop:events.event.stop,
+					instructeur:events.event.instructeur,	
+					},
+	 									
+					success:function(stop)
+					{
+					//calendar('refetchEvents');
+						if (stop == true) {
+							alert("Vous ne pouvez pas modifier cette réservation.");
+						} else {
+							alert("Modification Enregistrée.");
+						}
+						
+					calendar.refetchEvents('events,start,end,title,resourceId');	
+					},
+			})
+		},
+
+		eventClick:function(events, id, stop)
+		{
+			if(confirm("Etes vous sûr de vouloir annuler cette réservation ?"))
+			{
+			var id = events.event.id;
+			  $.ajax({
+				url:"/delete",
+				type:"POST",
+				data:{id:id},
+					success:function(stop)
+					{
+						if (stop == true) {
+							alert("Vous ne pouvez pas Annuler cette réservation.");
+						} else {
+							alert("Réservation Annulée.");
+						}
+						calendar.refetchEvents('refetchEvents');
+					}
+				})
+			}
+		},
+
+	});
+    calendar.render();
+});
+</script> 
+
+	<div class="row">	
+        <div class="col-lg-4">
+					
+			{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+				<h6>Adhérent Connecté: {{ app.user }}</h6>		 
+
+				<a class="btn btn-info text-center" href="{{path('reservation_formulaire') }}">Réservation Formulaire classique</a>
+				<a button class="btn btn-outline-primary" role="button" href="{{ path('app_logout') }}">Déconnexion</a> 		
+				<a class="btn btn-outline-primary" href="/admin/dashboard"  role="button" aria-pressed="true">Retour Tableau de Bord</a>			
+			
+			{% endif %}
+										
+		</div>
+	</div>
+		
+		</br>
+
+	<div class="col-lg-11 text-center"> 
+
+  <!-- Trigger the modal with a button -->  
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Choisissez Vol Solo ou Ecole-Cliquez</button>  
+  
+  <!-- Modal -->  
+  <div class="modal fade" id="myModal" role="dialog">  
+    <div class="modal-dialog">  
+      
+      <!-- Modal content-->  
+      <div class="modal-content">  
+        <div class="modal-header">  
+          <button type="button" class="close" data-dismiss="modal">×</button>  
+          <h4 class="modal-title">Réservation d'un Appareil</h4>  
+        </div>  
+        <div class="modal-body">
+		{{ form_start(form) }} 		
+          <p>Pour vol école choisissez votre instructeur et validez sinon choisissez vol solo puis valider.</p> 
+			<div><strong>{{ form_row(form.user, {'label' : 'Choisissez un Pilote', 'attr' : { 'class' : 'user'}}) }}</strong></div>											
+			<div><strong>{{ form_row(form.instructeur, {'label' : 'Pour Vol Ecole: Instructeur ', 'attr' : { 'class' : 'instructeur'}}) }}</strong></div>
+		{{ form_row(form.Validez, {'attr': {'class': 'btn btn-danger'}})}}        
+		
+		</div>
+ 		{{ form_end(form) }}
+		
+        <div class="modal-footer">  
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>  
+        </div>
+      </div>  
+    </div>  
+  </div>  
+    
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous" ></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>   
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+
+
+        {#{% block javascripts %}#}
+       {#{{ encore_entry_script_tags('app') }} #}
+        {#{% endblock %}#}
+
+
+  <div id='calendar'></div>
+    <div class="sonata-ba-form-actions well well-small form-actions">  		
+        <a class="btn btn-outline-primary" href="/admin/dashboard"  role="button" aria-pressed="true">Retour Tableau de Bord</a>			
+	</div>
+</div>
+
+{% endblock sonata_admin_content %}
+

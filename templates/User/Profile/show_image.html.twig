@@ -1,0 +1,16 @@
+
+{% block image_widget %}
+
+        <div class="card mb-2">
+          <div class="card-body text-center">
+  {% if object.imageName %}
+     
+<img src="{{ path('liip_imagine_filter', { 'path': object.imageName, 'filter': 'my_thumb' }) }}" alt="Mon Image" class="img-fluid"
+                          style="width: 180px; border-radius: 10px;"/>   
+   {% endif %}
+          </div>
+        </div>
+      </div>
+     
+{% endblock %}
+

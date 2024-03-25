@@ -1,0 +1,117 @@
+{% extends 'layout.html.twig' %}
+
+
+{% block body %}
+
+		{% include "_partials/_entete.html.twig" %}
+
+<head>
+    <style>
+        body {
+           # background: rgb(140, 214, 30);
+        }
+          
+        [data-tab-info] {
+            display: none;
+        }
+          
+        .active[data-tab-info] {
+            display: block;
+        }
+          
+        .tab-content {
+            font-size: 15px;
+            font-family: sans-serif;
+            font-weight: bold;
+            color: rgb(82, 75, 75);
+        }
+          
+        .tabs {
+            font-size: 20px;
+            color: rgb(255, 255, 255);
+            display: flex;
+            margin: 0;
+        }
+          
+        .tabs span {
+            background: rgb(0, 149, 255); 
+            padding: 10px;
+            border: 1px solid rgb(255, 255, 255);
+        }
+          
+        .tabs span:hover {
+            background: rgb(29, 185, 112);
+            cursor: pointer;
+            color: black;
+        }
+    </style>
+</head>
+
+  <div class="container py-2" style="background-color:#446e9b;">
+    <div class="row">    
+      <div class="col-lg-4">
+        <div class="card mb-2">
+          <div class="card-body text-center">
+          {# on affiche la photo %}#}
+
+ <div class="tabs">
+        <span data-tab-value="#tab_1">Ma licence</span>
+        <span data-tab-value="#tab_2">Mes Brevets</span>
+        <span data-tab-value="#tab_3">Carnet de Vol</span>
+    </div>
+
+
+
+
+  
+    <div class="tab-content">
+        <div class="tabs__tab active" id="tab_1" data-tab-info>
+
+            <p>PPL obtenu le : </p>
+            <p>Visite Médicale le : </p>
+            <p>Renouvellement le : </p>
+              <div class="d-flex justify-content-center mb-2">
+              {#  <button type="button" class="btn btn-primary">Follow</button>#}
+            
+              </div>            
+  
+        </div>
+        <div class="tabs__tab" id="tab_2" data-tab-info>
+            <p>Brevet de Base Obtenu le : </p>
+
+              <div class="d-flex justify-content-center mb-2">
+              {#  <button type="button" class="btn btn-primary">Follow</button>#}
+
+              </div>              
+  
+        </div>
+        <div class="tabs__tab" id="tab_3" data-tab-info>
+            <p>Carnet de Vols</p>
+
+            <a href="{{ path('app_MesVols_carnet') }}"><i class="fa fa-user" aria-hidden="true"></i><span class="d-none d-md-block">VOIR</span></a></li>
+  
+        </div>
+    </div>
+    <script type="text/javascript">
+        const tabs = document.querySelectorAll('[data-tab-value]')
+        const tabInfos = document.querySelectorAll('[data-tab-info]')
+  
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = document
+                    .querySelector(tab.dataset.tabValue);
+  
+                tabInfos.forEach(tabInfo => {
+                    tabInfo.classList.remove('active')
+                })
+                target.classList.add('active');
+            })
+        })
+    </script>
+               <a button class="btn btn-primary" role="button" aria-pressed="true" href="{{ path('user_profile_voir') }}">Retour</a>
+    </div>
+ 
+
+ 
+  </div>
+{% endblock body %}          

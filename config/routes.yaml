@@ -1,0 +1,24 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+index:
+    path: /Accueil
+    controller: App\Controller\DefaultController::index
+sonata_user_admin_security:
+    resource: '@SonataUserBundle/Resources/config/routing/admin_security.xml'
+    prefix: /admin
+ 
+sonata_user_admin_resetting:
+    resource: '@SonataUserBundle/Resources/config/routing/admin_resetting.xml'
+    prefix: /admin/resetting
+
+admin_app_reservation_new:
+    path: /admin/app/reservation/new
+    controller: App\Controller\ReservationController::new
+
+admin_app_reservation_delete:
+    path: /admin/app/reservation/delete
+    controller: App\Controller\ReservationController::delete

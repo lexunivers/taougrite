@@ -1,0 +1,84 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    app.jwtsecret: '%env(JWT_SECRET)%'
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    admin.avions:
+        class: App\Admin\AvionsAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Avions, controller: App\Controller\AvionsController , manager_type: orm, group: Parc Avions, label: Avions }
+
+    admin.resources:
+        class: App\Admin\ResourcesAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Resources, controller: ~, manager_type: orm, group: Parc Avions, label: Resources }
+
+    admin.instructeur:
+        class: App\Admin\InstructeurAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Instructeur, manager_type: orm, group: Formation,label: Instructeur }
+
+    admin.terrain:
+        class: App\Admin\TerrainAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Terrain, manager_type: orm, group: Divers,label: Terrain }
+
+    admin.operation_comptable:
+        class: App\Admin\OperationComptableAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\OperationComptable, controller: App\Controller\OperationComptableController, manager_type: orm, group: Comptabilité, label: OperationComptable}
+
+    admin.vol:
+        class: App\Admin\VolAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Vol, controller: App\Controller\VolController, manager_type: orm, group: Gestion des Vols, label: Saisir/Voir }
+
+    admin.typevol:
+        class: App\Admin\TypevolAdmin
+        arguments: [~, App\Entity\Typevol, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Divers, label: Typevol }
+
+    admin.naturevol:
+        class: App\Admin\NaturevolAdmin
+        arguments: [~, App\Entity\Naturevol, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Divers, label: Naturevol }
+
+    admin.statistiques:
+        class: App\Admin\StatistiquesAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Statistiques, controller: App\Controller\StatistiquesController, manager_type: orm, group: Consultation, label: Statistiques }
+
+    admin.reservation:
+        class: App\Admin\ReservationAdmin
+        tags:
+          - { name: sonata.admin, model_class: App\Entity\Reservation, controller: App\Controller\ReservationAdminController, manager_type: orm, group: Gestion des Vols, label: Reservation }
+
+    admin.cpte_individuel:
+        class: App\Admin\CpteIndividuelAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\CpteIndividuel, controller: App\Controller\CpteIndividuelController, manager_type: orm, group: Consultation, label: Cptes Individuels }
+
+
+
