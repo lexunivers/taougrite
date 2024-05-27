@@ -22,7 +22,13 @@
 				<h4>Situation de Mon Compte</h4>
 			</div>
 		</div>
-					
+	{% block message %}
+    	{% for message in app.session.flashbag.get('message') %}
+			<div class="alert alert-danger">
+				<p>Message flash : {{ message }}</p>
+			</div>
+		{% endfor %}
+	{% endblock message %} 					
 		<div class="row ">
 			<div class="col-md-12">
 				<table class="table table-striped table-bordered table-hover">

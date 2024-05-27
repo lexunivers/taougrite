@@ -81,8 +81,6 @@ class User extends BaseUser
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
-
-
     #[ORM\OneToOne(targetEntity: ComptePilote::class, mappedBy: 'pilote', cascade: ['persist', 'remove'])]
     private $comptepilote;
  
@@ -99,7 +97,10 @@ class User extends BaseUser
      */
 
     #[Vich\UploadableField(mapping: 'uploads', fileNameProperty: 'imageName',)]
-    private ?File $imageFile = null;    
+    private ?File $imageFile = null;
+
+    #[ORM\ManyToMany(targetEntity: Qualification::class, mappedBy: 'qualifsLegales', cascade: ['persist', 'remove'] )]
+    private Collection $qualifications;    
     
 
     /**
@@ -155,9 +156,9 @@ class User extends BaseUser
     }    
 
 	public function getComptepilote(): ?Comptepilote
-    {
-        return $this->comptepilote;
-    }
+                   {
+                       return $this->comptepilote;
+                   }
 
     public function setComptepilote(?Comptepilote $comptepilote): self
     {
@@ -326,11 +327,10 @@ class User extends BaseUser
         return $this;
     }
 
-
-
     public function __construct()
     {       
         $this->updatedAt2 = new \DateTime('now');
+        $this->qualifications = new ArrayCollection();
     }
 
     public function getTimezone(): ?string
@@ -356,8 +356,6 @@ class User extends BaseUser
 
         return $this;
     }
-
-
 
     public function getResetToken(): ?string
     {
@@ -388,14 +386,38 @@ class User extends BaseUser
         return $this->isVerified;
     }
 
-
-
-
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class, # Please, use DTO instead of entities
         ]);
+    }
+
+    /**
+     * @return Collection<int, Qualification>
+     */
+    public function getQualifications(): Collection
+    {
+        return $this->qualifications;
+    }
+
+    public function addQualification(Qualification $qualification): static
+    {
+        if (!$this->qualifications->contains($qualification)) {
+            $this->qualifications->add($qualification);
+            $qualification->addQualifsLegale($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQualification(Qualification $qualification): static
+    {
+        if ($this->qualifications->removeElement($qualification)) {
+            $qualification->removeQualifsLegale($this);
+        }
+
+        return $this;
     }
 
  

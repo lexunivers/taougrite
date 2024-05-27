@@ -9,14 +9,21 @@
     	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         {% endblock %}
 
-
-
 <div class="container">					
 	<div class="row">
 		<div class="col-5">
 			<hs>Mes Dossiers</hs>
 		</div>
 	</div>
+
+	{% block message %}
+    	{% for message in app.session.flashbag.get('message') %}
+			<div class="alert alert-danger">
+				<p>Message flash : {{ message }}</p>
+			</div>
+		{% endfor %}
+	{% endblock message %} 
+	
 	<div class="row">	
 		<div class="col-xl-3 col-md-4 col-6" title="Mon Image 1" href="#">
 			<div class="overlay-image">
@@ -142,13 +149,13 @@
 					</a></div>
 			</div>
 		<div class="col-xl-3 col-md-4 col-6" title="Image 12" href="">
-			<div class="overlay-image"><a href="#">
+			<div class="overlay-image"><a href="{{ path('user_pass_modifier')}}">
 				<img class="image" src="{{ asset('img/vert.png') }}" alt="Alt text" />
 					<div class="normal">
-						<div class="text">DatePicker</div>
+						<div class="text">Mot de Passe</div>
 					</div>
 					<div class="hover">
-						<div class="text">vos Avis</div>
+						<div class="text">Changer</div>
 					</div>
 					</a></div>
 			</div>

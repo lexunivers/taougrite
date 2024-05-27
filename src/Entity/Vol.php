@@ -22,10 +22,10 @@ class Vol
     #[ORM\Column(type: 'date')]
     private $datevol;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'vols')]
+    #[ORM\ManyToOne(targetEntity: User::class,)]// inversedBy: 'vols')]
     private $user;
 
-    #[ORM\ManyToOne(targetEntity: Avions::class, inversedBy: 'vols')]
+    #[ORM\ManyToOne(targetEntity: Avions::class,)] //inversedBy: 'vols')]
     private $avion;
 
     #[ORM\ManyToOne(targetEntity: Typevol::class, inversedBy: 'vols')]
@@ -48,7 +48,7 @@ class Vol
     #[ORM\Column(type: 'time')]
     private $heureArrivee;
 
-    #[ORM\ManyToOne(targetEntity: Instructeur::class, inversedBy: 'vols')]
+    #[ORM\ManyToOne(targetEntity: Instructeur::class,)]// inversedBy: 'vols')]
     private $instructeur;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -63,7 +63,7 @@ class Vol
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $validation;
 
-    #[ORM\ManyToOne(targetEntity: OperationComptable::class, inversedBy: 'CompteId', cascade: ['persist', 'remove', 'refresh'])]
+    #[ORM\ManyToOne(targetEntity: OperationComptable::class, cascade: ['persist', 'remove', 'refresh'])] //inversedBy: 'CompteId', 
     private $Comptable;
     
     public function getComptable(): ?OperationComptable

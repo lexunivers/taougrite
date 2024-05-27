@@ -211,8 +211,15 @@ class ReservationController extends AbstractController
 
 			}
                 // - 4 - on attribue un code de Reservation
-                $NumeroOrdre = rand(0,10000);
+              //  $NumeroOrdre = rand(0,10000);
 
+                $liste = "0123456789ABCDEF";
+                $NumeroOrdre = '';
+                 
+                while(strlen($NumeroOrdre) != 6) {
+                        $NumeroOrdre .= $liste[rand(0,15)];
+                }
+ 
                 // on enregistre le code obtenu dans CodeAttribué          
                 $CodeAttribue = new CodeAttribue();
                 $CodeAttribue->setNombre($NumeroOrdre); 
@@ -241,7 +248,6 @@ class ReservationController extends AbstractController
         }
 			
             return $this->render('reservation_admin/index.html.twig', [
-               // 'editMode' => $editMode,
                 'form' => $form->createView(),
                 'user'=>$user,
             ]);        
@@ -352,7 +358,15 @@ class ReservationController extends AbstractController
         $reservation = new Reservation();
 
         // On attribue un code de Reservation
-        $NumeroOrdre = rand(0,10000);
+        //$NumeroOrdre = rand(0,10000);
+        $liste = "0123456789ABCDEF";
+        $NumeroOrdre = '';
+         
+        while(strlen($NumeroOrdre) != 6) {
+                $NumeroOrdre .= $liste[rand(0,15)];
+        }        
+        
+        
         // on enregistre le code obtenu dans CodeAttribué          
         $CodeAttribue = new CodeAttribue();
         $CodeAttribue->setNombre($NumeroOrdre); 
@@ -382,7 +396,7 @@ class ReservationController extends AbstractController
                 $reservation->setFormateur("Néant");
 			}
 
-        $reservation->setAppareil($reservation->getAvion()->getImmatriculation());    
+        $reservation->setAppareil($reservation->getAvion()->getImmatriculation() );    
 		$reservation->setRealisation($realisation);
         $reservation->setNumeroOrdre($NumeroOrdre);			
 		$reservation->setReservataire($auteur);
@@ -404,9 +418,6 @@ class ReservationController extends AbstractController
 
     }
 
-    /**
-    * @Route("/liste", name="reserver_liste", methods={"GET","POST"})
-    */
     #[Route('/liste', name:'reserver_liste', methods:['GET','POST'] )]    
     public function listeMesReservations(Request $request, PaginatorInterface $paginator)
         {
@@ -434,7 +445,7 @@ class ReservationController extends AbstractController
                 foreach ($donnees as $value1) {            
                     $value1;            
                 };
-                $value1->getId();
+               // $value1->getId();
                 $value1->getStart();
                 $value1->getEnd();
                 $value1->getAppareil();

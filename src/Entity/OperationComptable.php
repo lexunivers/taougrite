@@ -35,9 +35,14 @@ class OperationComptable
     #[ORM\Column(type: 'datetime')]
     private $OperDate;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $CompteId;
+    #[ORM\Column(type: Types::DECIMAL, precision: 6, scale: 0, nullable: true)]
+    private ?string $CarteBancaire = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 12, scale: 2, nullable: true)]
+    private ?string $ChequeBancaire = null;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $CompteId;    
     
     public function getOperDate(): ?\DateTimeInterface
     {
@@ -135,6 +140,30 @@ class OperationComptable
     public function setCompteId(?int $CompteId): self
     {
         $this->CompteId = $CompteId;
+
+        return $this;
+    }
+
+    public function getCarteBancaire(): ?string
+    {
+        return $this->CarteBancaire;
+    }
+
+    public function setCarteBancaire(?string $CarteBancaire): static
+    {
+        $this->CarteBancaire = $CarteBancaire;
+
+        return $this;
+    }
+
+    public function getChequeBancaire(): ?string
+    {
+        return $this->ChequeBancaire;
+    }
+
+    public function setChequeBancaire(?string $ChequeBancaire): static
+    {
+        $this->ChequeBancaire = $ChequeBancaire;
 
         return $this;
     }

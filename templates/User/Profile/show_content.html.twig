@@ -22,6 +22,9 @@
             <h6 class="my-2">{{ username }}</h6>
               <p class="p-3 mb-2 bg-secondary text-white">Téléphone:{{user.phone }}</p>
               <p class="p-3 mb-2 bg-secondary text-white">Courriel: {{user.email }}</p>
+              <p class="p-3 mb-2 bg-secondary text-white"> {{ form_row(form.qualifications) }}</p>
+
+
               <div class="d-flex justify-content-center mb-2">
 
               <a type="button" class="btn btn-primary ms-1" href="mailto:lexunivers@orange.fr">Message au Club</a>
@@ -157,7 +160,7 @@
 						{% endif %}
 					{% endif %}				
 							<a button class="btn btn-primary" role="button" aria-pressed="true" href="{{ path('app_MesDossiers') }}">Dossiers</a>
-              <a button class="btn btn-primary" role="button" aria-pressed="true" href="#">Mes Docs</a>
+              <a button class="btn btn-primary" role="button" aria-pressed="true" href="{{ path('app_mes_docs') }}">Mes Docs</a>
 				</p>
 
 </section>	

@@ -167,6 +167,7 @@ class MonCompteController extends AbstractController
         $operation->setUser($this->container->get('security.token_storage')->getToken()->getUser());
         $operation->setCompteId($this->container->get('security.token_storage')->getToken()->getUser()->getId());
         $operation ->setOperSensMt(1);
+        $operation ->setCarteBancaire(511429);
   
         $form    = $this->createForm(OperationComptableType::class, $operation);
         $form->handleRequest($request);
@@ -176,7 +177,7 @@ class MonCompteController extends AbstractController
             $em->persist($operation);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('notice', 'Votre Paiement a bien été enregistré.');
+            $request->getSession()->getFlashBag()->add('message', 'Votre Paiement a bien été enregistré.');
            // $this->flashy->primaryDark('Paiement Enregistré !', 'http://your-awesome-link.com');
             return $this->redirect($this->generateUrl('app_moncompte', array('id' => $operation->getId())));
         }

@@ -41,6 +41,8 @@ final class OperationComptableAdmin extends AbstractAdmin
             ->add('OperDate')
             ->add('OperMontant')
             ->add('OperSensMt')
+            ->add('CarteBancaire', null, array('label'=>'Carte'))
+            ->add('ChequeBancaire', null, array('label'=>'Chèque'))
             ->add('Libelle', FieldDescriptionInterface::TYPE_STRING, [
                 'header_style' => 'width: 35%'
                 ])
@@ -66,6 +68,8 @@ final class OperationComptableAdmin extends AbstractAdmin
             ->add('OperDate', null,['label'=>'Date de l\'opération'])
             ->add('OperMontant', null,['label'=>'Montant'])
             ->add('OperSensMt', null,['label'=>'Pour Débit tapez 0 / Pour Crédit tapez 1'])
+            ->add('CarteBancaire', null,['label'=>'Carte'])
+            ->add('ChequeBancaire', null,['label'=>'Chèque'])
             ->add('Libelle')
             ;
     }

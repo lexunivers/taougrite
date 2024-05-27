@@ -108,6 +108,9 @@ class UserAdmin extends AbstractAdmin
                         ->add('firstname')
                         ->add('lastname')
 						->add('dateOfBirth', null, array('format'=>"d-m-Y"))
+
+                        ->add('qualifications', null, array('label'=>'Qualifications',
+                                                      'associated_property'=>'name' ))	
                         ->add('imageName', 'string', [
                             'template' => 'User/Profile/show_image.html.twig'])                                              
 					->end()	
@@ -156,6 +159,22 @@ class UserAdmin extends AbstractAdmin
 
 					// or DatePickerType if you don't need the time
 					->add('dateOfBirth', DatePickerType::class)
+
+                    ->add('qualifications',
+                    'Sonata\AdminBundle\Form\Type\ModelType',
+                    [
+                    'property' => 'getName',
+                    'label' => 'Qualifications:',
+                    'required' => false,
+                    'multiple' => true,
+                    'class' => 'App\Entity\Qualification',
+                    //'btn_add' => true,
+                    //'btn_delete' => true,
+                    //'prototype' => true,
+                    'by_reference' => false,
+                    'translation_domain' => 'SonataUserBundle'
+                    ]
+                    )                    
                 ->end()
 
 
@@ -179,7 +198,7 @@ class UserAdmin extends AbstractAdmin
                     ->add('job', TextType::class, array('label'=>'Activité','required' => false))
                     ->add('locale', LocaleType::class, ['required' => false])
                     ->add('timezone', TimezoneType::class, ['required' => false])                    
-                    
+                   // ->add('updatedAt2', DateType::class, ['required' => false])  
                 ->end()
             ->end()
 

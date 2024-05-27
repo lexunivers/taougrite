@@ -50,6 +50,11 @@
 								</div>
 						</div>	
 
+						<div class="form-group" id="qualifications">
+								<div class="col-sm-12">
+									<div><strong>{{ form_row(form.qualifications, {'label' : 'qualifications', 'attr' : { 'class' : 'user' }}) }}</strong></div> 
+								</div>
+						</div>	
 				</div>	
 				
 				<div class="col-sm-3">				
@@ -122,14 +127,13 @@
 						</div>						
 				</div>			
 				<div class="col-sm-3">				
-						<div class="form-group" id="avatar">
-								<div class="col-sm-12 ">
-								          {# on affiche la photo %}#}
-				{{ form_row(form.imageFile, { 
-					label: 'Photo',
-					'attr': {'class': 'user'}
+					<div class="form-group" id="avatar">
+						<div class="col-sm-12 ">
+				{# on affiche la photo %}#}
+					{{ form_row(form.imageFile, { 
+						label: 'Photo',
+						'attr': {'class': 'user'}
 					}) }}
-
 				</div>
 		</div>		
 
@@ -139,8 +143,8 @@
 					<div class="d-flex text-black">
 						<div class="flex-shrink-0">						
 							{% if vich_uploader_asset(app.user, 'imageFile') is null %}
-								<img src="{{ path('liip_imagine_filter', { 'path': object.imageName, 'filter': 'my_thumb' }) }}" alt="Mon Image" class="img-fluid"
-                          style="width: 180px; border-radius: 10px;"/>  
+				{#				<img src="{{ path('liip_imagine_filter', { 'path': object.imageName, 'filter': 'my_thumb' }) }}" alt="Mon Image" class="img-fluid"
+                          style="width: 180px; border-radius: 10px;"/>  #}
 										
 							{% else %}
 

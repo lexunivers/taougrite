@@ -73,7 +73,7 @@ class MesVolsController extends AbstractController
             $em->persist($vol);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('success', 'Le Vol a bien été enregistré.');
+            $request->getSession()->getFlashBag()->add('message', 'Le Vol a bien été enregistré.');
 
             return $this->redirect($this->generateUrl('app_MesVols_confirmer', ['id' => $vol->getId(), 'avion' => $vol->getAvion('id'), 'Heuresdevol' => $vol->DureeDuVol(), ]));
         }
@@ -137,7 +137,7 @@ class MesVolsController extends AbstractController
             $em->persist($vol);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('Info', 'la facture est inscrite dans votre Cpte Pilote.');
+            $request->getSession()->getFlashBag()->add('message', 'la facture est inscrite dans votre Cpte Pilote.');
             // $this->flashy->primaryDark('Vol enregistré !', 'http://your-awesome-link.com'); 
             return $this->redirectToRoute('app_MesVols_detail', array('id' => $vol->getId()));
         }
@@ -230,7 +230,7 @@ class MesVolsController extends AbstractController
             $em->persist($operation);		
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('success', 'Le Vol a bien été modifié.');
+            $request->getSession()->getFlashBag()->add('message', 'Le Vol a bien été modifié.');
             //$this->flashy->success('Vol modifié', 'http://your-awesome-link.com');
 			//$this->flashy->primaryDark('Vol Modifié !', 'http://your-awesome-link.com');        
             
@@ -279,7 +279,7 @@ class MesVolsController extends AbstractController
 		$em->remove($vol);
         $em->flush();
                         
-        $request->getSession()->getFlashBag()->add('notice', "Le Vol a bien été supprimé.");
+        $request->getSession()->getFlashBag()->add('message', "Le Vol a bien été supprimé.");
 			//$this->flashy->success('Vol supprimé', 'http://your-awesome-link.com');
             
 			return $this->redirectToRoute('app_MesVols_detail', array('id' => $vol->getId() ));

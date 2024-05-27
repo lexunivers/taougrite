@@ -39,7 +39,6 @@ hs {
 </style>
 {{ form_start(formComptable) }}
 	<div class="container-fluid">
-
 		<div class="row">
 			<div class="col-2">
 				<div class="form-group" id="user">
@@ -59,33 +58,29 @@ hs {
 					</div>
 				</div>
 			</div>
-
 		</div>
 	
 {{ form_end(formComptable) }}
 <hr>
-					<div class="row"> 
-						<div class="col-8">							
-							<h3>Compte de : {{prenom}} {{nom}} </h3>								  
-							<h3>N° Pilote : {{pilote}}</h3>		
-							<h3>N°Comptable : {{comptable.Id}} </h3>	
-						</div>
+	<div class="row"> 
+		<div class="col-8">							
+			<h3>Compte de : {{prenom}} {{nom}} </h3>								  
+			<h3>N° Pilote : {{pilote}}</h3>		
+			<h3>N°Comptable : {{comptable.Id}} </h3>	
+		</div>
 						
-						<div class="col-8">
-							{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %} 
-							<h4>Membre Connecté : {{ app.user.username }}</h4> 
-
-							<a button class="btn btn-primary" role="button" href="{{ path('app_logout') }}" >Déconnexion</a>
-													
-							{% else %}
-
-							{% endif %}				
+		<div class="col-8">
+			{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %} 
+				<h4>Membre Connecté : {{ app.user.username }}</h4> 
+					<a button class="btn btn-primary" role="button" href="{{ path('app_logout') }}" >Déconnexion</a>					
+						{% else %}
+						{% endif %}				
 						</div>
-					</div>			
+				</div>			
 
-					<div class="row">
-						<div><h5>{# On affiche tous les messages flash dont le nom est « notice » #}
-							{% for message in app.session.flashbag.get('notice') %}
+		<div class="row">
+			<div><h5>{# On affiche tous les messages flash dont le nom est « notice » #}
+				{% for message in app.session.flashbag.get('notice') %}
 								<div class="alert alert-danger">
 									<p>Message : {{ message }}</p>
 								</div>
