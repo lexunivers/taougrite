@@ -78,7 +78,8 @@ services:
     admin.cpte_individuel:
         class: App\Admin\CpteIndividuelAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\CpteIndividuel, controller: App\Controller\CpteIndividuelController, manager_type: orm, group: Consultation, label: Cptes Individuels }
+            - { name: sonata.admin, model_class: App\Entity\CpteIndividuel, controller: App\Controller\CpteIndividuelController, manager_type: orm, group: Comptabilité, label: Cptes Individuels }
+
 
 
 

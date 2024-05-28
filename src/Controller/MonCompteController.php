@@ -177,7 +177,7 @@ class MonCompteController extends AbstractController
             $em->persist($operation);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('message', 'Votre Paiement a bien été enregistré.');
+            $request->getSession()->getFlashBag()->add('message', 'Votre Paiement a bien été enregistré.Merci');
            // $this->flashy->primaryDark('Paiement Enregistré !', 'http://your-awesome-link.com');
             return $this->redirect($this->generateUrl('app_moncompte', array('id' => $operation->getId())));
         }
